@@ -61,12 +61,16 @@
                         <td>{{$dataSchool->schoolAddress}}</td>
                         <td>{{$dataSchool->schoolCity}}</td>
                         <td>
-                            <a class="btn btn-primary btn-sm" href="{{route('schools.show', $dataSchool->id)}}"><i class="nav-icon fas fa-eye"></i></a>
-                            <a class="btn btn-warning btn-sm" href=""><i class="nav-icon fas fa-edit"></i></a>
-                            <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Yakin ingin menghapus?')">
-                                <i class="nav-icon fas fa-trash-alt"></i>
-                            </button>
+                            <a class="btn btn-sm" href="{{route('schools.show', $dataSchool->id)}}" title="Show School"><i class="nav-icon fas fa-eye text-primary"></i></a>
+                            <a class="btn btn-sm" href="{{route('schools.edit', $dataSchool->id)}}" title="Edit School"><i class="nav-icon fas fa-edit text-warning"></i></a>
+                            <form method="POST" action="{{route('schools.destroy', $dataSchool->id)}}">
+                                @csrf
+                                @method('DELETE')
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button type="submit" class="btn btn-sm show_confirm" data-toggle="tooltip" title='Delete'>
+                                    <i class="nav-icon fas fa-trash text-danger"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -78,4 +82,24 @@
     </div>
     <!--Row-->
 
+    <!-- Sweet Alert Modal-->
+    <script type="text/javascript">
+     $('.show_confirm').click(function(event) {
+          var form =  $(this).closest("form");
+          var name = $(this).data("name");
+          event.preventDefault();
+          swal({
+              title: `Are you sure you want to delete this school?`,
+              text: "If you delete this, it will be gone forever.",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              form.submit();
+            }
+          });
+      });
+    </script>
 @endsection

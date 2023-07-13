@@ -38,8 +38,8 @@ class SchoolController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'schoolName' => ['required', 'max:20'],
-            'schoolAddress' => ['required', 'max:50'],
+            'schoolName' => ['required', 'max:100'],
+            'schoolAddress' => ['required', 'max:100'],
             'schoolCity' => ['required', 'max:20']
         ]);
 
@@ -68,7 +68,7 @@ class SchoolController extends Controller
      */
     public function edit(School $school)
     {
-        //
+        return view('school.edit', compact('school'));
     }
 
     /**
@@ -80,7 +80,15 @@ class SchoolController extends Controller
      */
     public function update(Request $request, School $school)
     {
-        //
+        $request->validate([
+            'schoolName' => ['required', 'max:100'],
+            'schoolAddress' => ['required', 'max:100'],
+            'schoolCity' => ['required', 'max:20']
+        ]);
+
+        $school->update($request->all());
+        return redirect()->route('schools.index')
+        ->with('success', 'School data have been updated');
     }
 
     /**
@@ -89,8 +97,16 @@ class SchoolController extends Controller
      * @param  \App\Models\School  $school
      * @return \Illuminate\Http\Response
      */
-    public function destroy(School $school)
+    public function destroy($id)
     {
-        //
+        // Find the school
+        $school = School::findOrFail($id);
+
+        // Delete the school
+        $school->delete();
+
+        // Redirect or perform additional actions
+        return redirect()->route('schools.index')
+        ->with('success', 'School data have been deleted');
     }
 }

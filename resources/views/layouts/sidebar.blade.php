@@ -3,14 +3,14 @@
       <div class="sidebar-brand-icon">
         <img src="{{asset('admin/img/logo/logo2.png')}}">
       </div>
-      <div class="sidebar-brand-text mx-3">Go School</div>
+      <div class="sidebar-brand-text mx-3">schoolHELP</div>
     </a>
 
 
     @if(auth()->user()->rule=='schoolHelp')
     <hr class="sidebar-divider my-0">
-    <li class="nav-item active">
-      <a class="nav-link" href="{{route('school-help.index')}}">
+    <li class="nav-item {{ Request::is('school-help') ? 'active' : '' }}">
+      <a class="nav-link " href="{{route('school-help.index')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -18,15 +18,16 @@
     <div class="sidebar-heading">
         Menu
     </div>
-    <li class="nav-item">
+    <li class="nav-item {{ Request::is('schools') ||Request::is('schools/*') ||Request::is('schools/delete/*')
+    ? 'active' : '' }}">
         <a class="nav-link" href="{{route('schools.index')}}">
-            <i class="fas fa-fw fa-palette"></i>
+            <i class="fas fa-fw fa-school"></i>
             <span>Add New School</span>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#>
-            <i class="fas fa-fw fa-palette"></i>
+        <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-user"></i>
             <span>Register School Admin</span>
         </a>
     </li>
@@ -37,7 +38,7 @@
         </div>
         <li class="nav-item">
             <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-palette"></i>
+            <i class="fa fa-fw fa-school"></i>
             <span>Add New School</span>
             </a>
         </li>
@@ -54,7 +55,7 @@
         </div>
         <li class="nav-item">
             <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-palette"></i>
+            <i class="fas fa-school"></i>
             <span>Add New School</span>
             </a>
         </li>

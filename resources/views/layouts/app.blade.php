@@ -18,7 +18,6 @@
     <link href="{{asset('admin/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('admin/css/ruang-admin.css')}}" rel="stylesheet">
     <link href="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -90,6 +89,11 @@
       $('#dataTableHover').DataTable(); // ID From dataTable with Hover
     });
   </script>
+
+   <!--Sweet Alert-->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+   <!-- Jquery Google -->
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </body>
 
 </html>

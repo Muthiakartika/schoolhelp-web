@@ -27,5 +27,21 @@ class DatabaseSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+
+        DB::table('schools')->insert([
+            'schoolName' => 'HELP Univeristy',
+            'schoolAddress' => 'Subang',
+            'schoolCity' => 'Kuala Lumpur',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('schools')->insert([
+            'schoolName' => 'ITB STIKOM BALI',
+            'schoolAddress' => 'Renon',
+            'schoolCity' => 'Denpasar',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
     }
 }

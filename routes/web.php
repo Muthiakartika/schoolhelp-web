@@ -31,6 +31,8 @@ Route::group(['middleware' => 'help'], function () {
         ->name('school-help.index');
         //SCHOOL
         Route::resource('schools', SchoolController::class);
+        //DELETE SCHOOL
+        Route::delete('schools/delete/{id}', [SchoolController::class, 'destroy'])->name('schools.destroy');
     });
 });
 
