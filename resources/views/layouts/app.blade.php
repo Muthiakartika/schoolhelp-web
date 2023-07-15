@@ -18,6 +18,8 @@
     <link href="{{asset('admin/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('admin/css/ruang-admin.css')}}" rel="stylesheet">
     <link href="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+     <!-- Select2 -->
+    <link href="{{asset('admin/vendor/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top">
@@ -81,13 +83,19 @@
   <!-- Page level plugins -->
   <script src="{{asset('admin/vendor/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
+    <!-- Select2 -->
+    <script src="{{asset('admin/vendor/select2/dist/js/select2.min.js')}}"></script>
   <!-- Page level custom scripts -->
   <script>
     $(document).ready(function () {
       $('#dataTable').DataTable(); // ID From dataTable
       $('#dataTableHover').DataTable(); // ID From dataTable with Hover
     });
+
+    $('.select2-single').select2();
+
+    // Select2 Multiple
+    $('.select2-multiple').select2();
   </script>
 
    <!--Sweet Alert-->

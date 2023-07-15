@@ -14,4 +14,8 @@ class School extends Model
         'schoolAddress',
         'schoolCity'
     ];
+
+    public function schoolAdmin(){
+        return $this->hasMany(schoolAdmins::class, 'id', 'schoolID');
+    }
 }

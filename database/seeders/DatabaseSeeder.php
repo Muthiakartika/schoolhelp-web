@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => Carbon::now()->toDateTimeString(),
             'password' => Hash::make('schoolhelp123'),
             'fullname' => 'School HELP',
-            'phone' => '00327162000',
+            'phone' => '0327162000',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

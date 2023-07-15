@@ -24,8 +24,6 @@ class CreateUsersTable extends Migration
             $table->string('phone');
             $table->date('dob')->nullable();
             $table->string('occupation')->nullable();
-            $table->string('staffID')->nullable();
-            $table->string('position')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

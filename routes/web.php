@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SchoolAdminsController;
 use App\Http\Controllers\SchoolController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,8 +33,14 @@ Route::group(['middleware' => 'help'], function () {
         //SCHOOL
         Route::resource('schools', SchoolController::class);
         //DELETE SCHOOL
-        Route::delete('schools/delete/{id}', [SchoolController::class, 'destroy'])->name('schools.destroy');
+        Route::delete('schools/delete/{id}', [SchoolController::class, 'destroy'])
+        ->name('schools.destroy');
+        //SCHOOL ADMIN
+        Route::resource('school-admins', SchoolAdminsController::class);
+        // Route::get('/schools/{school}/admins', [SchoolAdminsController::class, 'index'])->name('school-admins.index');
     });
 });
+
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

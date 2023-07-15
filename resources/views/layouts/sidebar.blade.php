@@ -25,8 +25,9 @@
             <span>Add New School</span>
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">
+    <li class="nav-item {{ Request::is('school-admins') ||Request::is('school-admins/*') ||Request::is('school-admins/delete/*')
+    ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('school-admins.index')}}">
             <i class="fas fa-fw fa-user"></i>
             <span>Register School Admin</span>
         </a>
