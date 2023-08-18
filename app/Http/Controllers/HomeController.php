@@ -30,4 +30,9 @@ class HomeController extends Controller
     {
         return view('school-help.index');
     }
+
+    public function adminIndex()
+    {
+        return view('school-admin.index-dash');
+    }
 }

@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->enum('rule', ['schoolHelp','schoolAdmin', 'schoolVolunteer'])->default('schoolHelp');
             $table->string('username');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_verified_at');
             $table->string('password');
             $table->string('fullname');
             $table->string('phone');

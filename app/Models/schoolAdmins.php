@@ -15,6 +15,6 @@ class schoolAdmins extends Model
     ];
 
     public function school(){
-        return $this->belongsTo(School::class, 'id');
+        return $this->belongsTo(School::class, 'schoolID');
     }
 }

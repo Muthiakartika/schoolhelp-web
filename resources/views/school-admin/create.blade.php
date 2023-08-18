@@ -39,7 +39,11 @@
 
                         <input name="rule" value="schoolAdmin" type="hidden">
 
-                        <input name="email_verified_at" value="{{\Carbon\Carbon::now()->toDateTimeString()}}" type="hidden">
+                        @php
+                            use Carbon\Carbon;
+                            $now = Carbon::now();
+                        @endphp
+                        <input name="email_verified_at" value="{{$now->toDateTimeString()}}" type="hidden">
 
                         <div class="form-group">
                             <label for="fullname">Username</label>

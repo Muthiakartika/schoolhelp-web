@@ -37,7 +37,20 @@ Route::group(['middleware' => 'help'], function () {
         ->name('schools.destroy');
         //SCHOOL ADMIN
         Route::resource('school-admins', SchoolAdminsController::class);
-        // Route::get('/schools/{school}/admins', [SchoolAdminsController::class, 'index'])->name('school-admins.index');
+         //DELETE SCHOOL
+         Route::delete('school-admins/delete/{id}', [SchoolAdminsController::class, 'destroy'])
+         ->name('school-admins.destroy');
+    });
+});
+
+# SCHOOL ADMIN
+Route::group(['middleware' => 'admin'], function () {
+    Route::group(['middleware' => ['verified']], function (){
+
+        //LOGIN
+        Route::get('/school-administrator', [App\Http\Controllers\HomeController::class, 'adminIndex'])
+        ->name('school-admin.index');
+      
     });
 });
 

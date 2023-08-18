@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\School;
 use App\Models\schoolAdmins;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,9 +16,7 @@ class SchoolAdminsController extends Controller
      */
     public function index()
     {
-
         $schoolAdmin = schoolAdmins::with('school')->get();
-
         return view('school-admin.index', compact('schoolAdmin'))
         ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -51,11 +48,13 @@ class SchoolAdminsController extends Controller
             'email' => 'Required',
             'password' => ['Required', 'min:8', 'confirmed'],
             'schoolID' => 'required',
-            'position' => 'required'
+            'position' => 'required',
+            'rule' => 'required',
+            'email_verified_at' => 'required'
         ]);
         $request['password'] = bcrypt($request->password);
 
-        // menambahkan staff baru di database user
+        // menambahkan school admin baru di database user
         User::where('id', $request->user()['id'])->updateOrCreate([
             'username' => $request->username,
             'fullname' => $request->fullname,
@@ -63,39 +62,44 @@ class SchoolAdminsController extends Controller
             'email' => $request->email,
             'password' => $request->password,
             'rule' => $request->rule,
-            'email_verified_at' => $request->email_verified_at,
+            'email_verified_at' => $request->email_verified_at
         ]);
 
-        // menambahkan staff
+        // menambahkan school admin
         schoolAdmins::create([
             'fullname' => $request->fullname,
             'schoolID' => $request->schoolID,
-            'position' => $request->position,
+            'position' => $request->position
         ]);
         return redirect()->route('school-admins.index')
-            ->with('success', "Congrats.");
+            ->with('success', "Data have been created");
+
+        // dd($request);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\schoolAdmins  $schoolAdmins
+     * @param  \App\Models\schoolAdmins  $schoolAdmin
      * @return \Illuminate\Http\Response
      */
-    public function show(schoolAdmins $schoolAdmins)
+    public function show(schoolAdmins $schoolAdmin)
     {
-        //
+        $schoolAdmin->load('school');
+        return view('school-admin.show', compact('schoolAdmin'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\schoolAdmins  $schoolAdmins
+     * @param  \App\Models\schoolAdmins  $schoolAdmin
      * @return \Illuminate\Http\Response
      */
-    public function edit(schoolAdmins $schoolAdmins)
+    public function edit(schoolAdmins $schoolAdmin)
     {
-        //
+        $schoolName = DB::table('schools')->get();
+        $userName = User::where('fullname', $schoolAdmin->pluck('fullname'))->get();
+        return view('school-admin.edit', compact('schoolName', 'schoolAdmin', 'userName'));
     }
 
     /**
@@ -105,9 +109,33 @@ class SchoolAdminsController extends Controller
      * @param  \App\Models\schoolAdmins  $schoolAdmins
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, schoolAdmins $schoolAdmins)
+    public function update(Request $request, $id)
     {
-        //
+         //validasi
+         $request->validate([
+            'fullname' => 'required',
+            'phone' => 'required',
+            'password' => ['Required', 'min:8', 'confirmed'],
+            'schoolID' => 'required',
+            'position' => 'required',
+        ]);
+        $request['password'] = bcrypt($request->password);
+
+        $schoolAdmins = schoolAdmins::findOrFail($id);
+        $user = User::where('fullname', $schoolAdmins->pluck('fullname'))->update([
+            'fullname' => $request->fullname,
+            'phone' => $request->phone,
+            'password' => $request->password
+        ]);
+
+        $schoolAdmins->fullname = $request->fullname;
+        $schoolAdmins->schoolID = $request->schoolID;
+        $schoolAdmins->position = $request->position;
+        $schoolAdmins->timestamps;
+
+        $schoolAdmins->save();
+        return redirect()->route('school-admins.index')
+        ->with('success', "Data have been updated");
     }
 
     /**
@@ -116,8 +144,18 @@ class SchoolAdminsController extends Controller
      * @param  \App\Models\schoolAdmins  $schoolAdmins
      * @return \Illuminate\Http\Response
      */
-    public function destroy(schoolAdmins $schoolAdmins)
+    public function destroy($fullname)
     {
-        //
+
+        $schoolAdmins = schoolAdmins::findOrFail($fullname);
+        $user = User::where('fullname', $schoolAdmins->fullname)->get();
+
+        // MENGHAPUS DATA USER BERDASARKAN NAME YANG DIPILIH
+        DB::table('users')->whereIn('fullname', $user->pluck('fullname'))->delete();
+        // MENGHAPUS DATA STAFF BERDASARKAN NAME YANG DIPILIH
+        schoolAdmins::where('fullname', $schoolAdmins->fullname)->delete();
+
+        return redirect()->route('school-admins.index')
+        ->with('success', "Data have been deleted");
     }
 }

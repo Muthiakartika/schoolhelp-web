@@ -8,45 +8,43 @@
 
 
     @if(auth()->user()->rule=='schoolHelp')
-    <hr class="sidebar-divider my-0">
-    <li class="nav-item {{ Request::is('school-help') ? 'active' : '' }}">
-      <a class="nav-link " href="{{route('school-help.index')}}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a>
-    </li>
-    <hr class="sidebar-divider">
-    <div class="sidebar-heading">
-        Menu
-    </div>
-    <li class="nav-item {{ Request::is('schools') ||Request::is('schools/*') ||Request::is('schools/delete/*')
-    ? 'active' : '' }}">
-        <a class="nav-link" href="{{route('schools.index')}}">
-            <i class="fas fa-fw fa-school"></i>
-            <span>Add New School</span>
-        </a>
-    </li>
-    <li class="nav-item {{ Request::is('school-admins') ||Request::is('school-admins/*') ||Request::is('school-admins/delete/*')
-    ? 'active' : '' }}">
-        <a class="nav-link" href="{{route('school-admins.index')}}">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Register School Admin</span>
-        </a>
-    </li>
-
-    @elseif (auth()->user()->rule=='schoolAdmin')
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ Request::is('school-help') ? 'active' : '' }}">
+        <a class="nav-link " href="{{route('school-help.index')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+        </li>
+        <hr class="sidebar-divider">
         <div class="sidebar-heading">
             Menu
         </div>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-school"></i>
-            <span>Add New School</span>
+        <li class="nav-item {{ Request::is('schools') ||Request::is('schools/*') ||Request::is('schools/delete/*')
+        ? 'active' : '' }}">
+            <a class="nav-link" href="{{route('schools.index')}}">
+                <i class="fas fa-fw fa-school"></i>
+                <span>Add New School</span>
             </a>
         </li>
+        <li class="nav-item {{ Request::is('school-admins') ||Request::is('school-admins/*') ||Request::is('school-admins/delete/*')
+        ? 'active' : '' }}">
+            <a class="nav-link" href="{{route('school-admins.index')}}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Register School Admin</span>
+            </a>
+        </li>
+
+    @elseif (auth()->user()->rule=='schoolAdmin')
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ Request::is('school-administrator') ? 'active' : '' }}">
+        <a class="nav-link " href="{{route('school-admin.index')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+        </li>
+         <hr class="sidebar-divider">
         <li class="nav-item">
             <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-palette"></i>
-            <span>Register School Admin</span>
+            <i class="fa fa-fw fa-file"></i>
+            <span>Submit Request</span>
             </a>
         </li>
 

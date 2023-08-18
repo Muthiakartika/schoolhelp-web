@@ -55,12 +55,9 @@ class LoginController extends Controller
             if (auth()->user()->rule == 'schoolHelp') {
                 return redirect()->route('school-help.index');
             }
-            // if (auth()->user()->role == 'SchoolHelp') {
-            //     return redirect()->route('school-help.index');
-            // }
-            // elseif (auth()->user()->role == 'SchoolAdmin') {
-            //     return redirect()->route('home');
-            // }
+            elseif (auth()->user()->role == 'SchoolAdmin') {
+                return redirect()->route('school-admin.index');
+            }
             // elseif (auth()->user()->role == 'SchoolVolunteer') {
             //     return redirect()->route('home');
             // }

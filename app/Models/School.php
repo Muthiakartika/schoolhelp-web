@@ -16,6 +16,6 @@ class School extends Model
     ];
 
     public function schoolAdmin(){
-        return $this->hasMany(schoolAdmins::class, 'id', 'schoolID');
+        return $this->hasMany(schoolAdmins::class, 'schoolID');
     }
 }

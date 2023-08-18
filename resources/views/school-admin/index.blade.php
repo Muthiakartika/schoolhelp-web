@@ -61,13 +61,12 @@
                                     <td>{{ $schoolAdm->school ? $schoolAdm->school->schoolName : 'N/A' }}</td>
                                     <td>{{$schoolAdm->position}}</td>
                                     <td>
-                                        <a class="btn btn-sm" href="" title="Show School"><i class="nav-icon fas fa-eye text-primary"></i></a>
-                                        <a class="btn btn-sm" href="" title="Edit School"><i class="nav-icon fas fa-edit text-warning"></i></a>
-                                        <form method="POST" action="">
+                                        <a class="btn btn-sm" href="{{route('school-admins.show', $schoolAdm->id)}}" title="Show Admin"><i class="nav-icon fas fa-eye text-primary"></i></a>
+                                        <a class="btn btn-sm" href="{{route('school-admins.edit', $schoolAdm->id)}}" title="Edit School"><i class="nav-icon fas fa-edit text-warning"></i></a>
+                                        <form method="POST" id="delete-form" >
                                             @csrf
                                             @method('DELETE')
-                                            <input name="_method" type="hidden" value="DELETE">
-                                            <button type="submit" class="btn btn-sm show_confirm" data-toggle="tooltip" title='Delete'>
+                                            <button type="button" class="btn btn-sm" onclick="showDeleteConfirmation('{{ route('school-admins.destroy', $schoolAdm->id)}}')">
                                                 <i class="nav-icon fas fa-trash text-danger"></i>
                                             </button>
                                         </form>
@@ -80,26 +79,30 @@
             </div>
         </div>
     </div>
+</div>
 
     <!--Row-->
-    <!-- Sweet Alert Modal-->
+<!-- Sweet Alert Modal -->
 <script type="text/javascript">
-    $('.show_confirm').click(function(event) {
-        var form =  $(this).closest("form");
-        var name = $(this).data("name");
-        event.preventDefault();
-        swal({
-            title: `Are you sure you want to delete this school?`,
-            text: "If you delete this, it will be gone forever.",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-        if (willDelete) {
-            form.submit();
+    function showDeleteConfirmation(url) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this data!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            return new Promise((resolve) => {
+                // Submit the delete form
+                document.getElementById('delete-form').action = url;
+                document.getElementById('delete-form').submit();
+                resolve();
+            });
         }
-        });
     });
+}
 </script>
 @endsection
