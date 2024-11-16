@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -28,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::DASHBOARD;
 
     /**
      * Create a new controller instance.
@@ -40,32 +40,28 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request)
-    {
-        $inputVal = $request->all();
-
-        $this->validate($request, [
-            'username' => 'required',
-            'password' => 'required | max:64 | min:8',
+    public function login(Request $request){
+        $request->validate([
+            'email'=>'required',
+            'password'=> 'required',
         ]);
 
-        if(auth()->attempt(array('username' => $inputVal['username'], 'password' => $inputVal['password']),
-            $request->get('remember'))){
+        $type = filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)? 'email':'username';
 
-            if (auth()->user()->rule == 'schoolHelp') {
-                return redirect()->route('school-help.index');
+        $guard= Auth::guard()->attempt(array($type=>$request->get('email'),'password'=>$request->get('password')),$request->boolean('remember'));
+        if ($guard){
+            if (Auth::user()->level_user === 'master_admin'){
+                return redirect()->route('dashboardSchool');
             }
-            elseif (auth()->user()->role == 'SchoolAdmin') {
-                return redirect()->route('school-admin.index');
+            else if (Auth::user()->level_user === 'school_admin'){
+                return redirect()->route('requestSchool');
             }
-            // elseif (auth()->user()->role == 'SchoolVolunteer') {
-            //     return redirect()->route('home');
-            // }
-            else {
-                return redirect()->route('home');
+            else if (Auth::user()->level_user === 'volunteer'){
+                return redirect()->route('dashboardVolunteer');
             }
-        }else{
-            return redirect()->route('login')->with('error','Email or Password are incorrect.');
+        }
+        else{
+            return redirect()->back()->withErrors(['msg' => 'Account not exist / password is wrong']);;
         }
     }
 }

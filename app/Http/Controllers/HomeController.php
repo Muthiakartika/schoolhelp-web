@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -26,13 +28,19 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function helpIndex()
+    protected function createSchool(Request $request)
     {
-        return view('school-help.index');
-    }
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $data_insert = [
+            'name' => $name,
+            'email' => $email,
+            'level_user' => 'school_admin',
+            'password' => Hash::make($password),
+        ];
 
-    public function adminIndex()
-    {
-        return view('school-admin.index-dash');
+        User::create($data_insert);
+        return redirect()->back();
     }
 }

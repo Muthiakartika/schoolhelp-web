@@ -2,11 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\SchoolAdmin;
-use App\Http\Middleware\SchoolHelp;
-use App\Http\Middleware\SchoolVolunteer;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-
 
 class Kernel extends HttpKernel
 {
@@ -67,8 +63,5 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'admin' => SchoolAdmin::class,
-        'help' => SchoolHelp::class,
-        'volunteer' => SchoolVolunteer::class
     ];
 }
